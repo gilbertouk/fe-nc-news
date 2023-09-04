@@ -1,13 +1,13 @@
 import "./DisplayOfArticles.css";
 import { ArticlesFilters } from "./ArticlesFilters";
-import { ArticleCard } from "./ArticleCard";
+import { ArticleList } from "./ArticleList";
 import { PaginationButton } from "./PaginationButton";
 
 export function DisplayOfArticles() {
   return (
     <div className="display-container">
       <ArticlesFilters />
-      <ArticleCard />
+      <ArticleList />
       <PaginationButton />
     </div>
   );

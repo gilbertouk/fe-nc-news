@@ -7,7 +7,6 @@
   display: flex;
   justify-content: center;
   background-color: lightgray;
-  padding: 10px 0;
 }
 
 .navbar ul {
@@ -17,5 +16,5 @@
 }
 
 .navbar li {
-  margin: 0 10px;
+  margin: 0 16px;
 }

@@ -1,0 +1,11 @@
+.form-article label,
+.form-article input {
+  display: block;
+  margin-bottom: 10px;
+  width: auto;
+}
+
+.form-article img {
+  max-width: 100%;
+  height: auto;
+}

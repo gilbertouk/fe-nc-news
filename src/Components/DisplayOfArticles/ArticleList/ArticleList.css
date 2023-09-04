@@ -1,10 +1,22 @@
 .card-list {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 90vw;
+  height: 60vh;
   justify-content: space-between;
   list-style: none;
   padding: 0;
+  overflow: auto;
+  border: 1px solid #ccc;
+}
+
+.card-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.card-list li:last-child {
+  border-bottom: none; /* Remova a borda inferior do último item */
 }
 
 .card {
