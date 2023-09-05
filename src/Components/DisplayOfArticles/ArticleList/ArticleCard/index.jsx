@@ -1,7 +1,14 @@
 /* eslint-disable react/prop-types */
+import { useNavigate } from "react-router-dom";
 import "./ArticleCard.css";
 
-export function ArticleCard({ newArticles, handleArticleToDisplay }) {
+export function ArticleCard({ newArticles }) {
+  const navigate = useNavigate();
+
+  function handleArticleToDisplay(article) {
+    navigate(`/articles/${article.article_id}`);
+  }
+
   return (
     <>
       {newArticles.map((article) => {
