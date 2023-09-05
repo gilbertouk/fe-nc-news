@@ -1,24 +1,17 @@
+/* eslint-disable react/prop-types */
 import "./ArticleCard.css";
-import { getAllArticles } from "../../../utils/api";
-import { useState } from "react";
-import { useEffect } from "react";
 
-export function ArticleCard() {
-  const [newArticles, setNewArticles] = useState([]);
-
-  useEffect(() => {
-    getAllArticles().then((data) => {
-      console.log(data);
-      setNewArticles(data.articles);
-    });
-  }, []);
-
+export function ArticleCard({ newArticles, handleArticleToDisplay }) {
   return (
-    <ul className="card-list">
-      {" "}
+    <>
       {newArticles.map((article) => {
         return (
-          <li key={article.article_id}>
+          <li
+            key={article.article_id}
+            onClick={() => {
+              handleArticleToDisplay(article);
+            }}
+          >
             <div className="card">
               <img
                 src={article.article_img_url}
@@ -34,6 +27,6 @@ export function ArticleCard() {
           </li>
         );
       })}
-    </ul>
+    </>
   );
 }

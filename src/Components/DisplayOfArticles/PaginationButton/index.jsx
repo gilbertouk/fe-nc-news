@@ -4,7 +4,7 @@ export function PaginationButton() {
   return (
     <div className="pagination-container">
       <button className="pagination-button" type="button">
-        Previous
+        Back
       </button>
       <button className="pagination-button" type="button">
         Next

@@ -11,9 +11,7 @@ export function NavBar() {
         <li>
           <Link to="/topics">Topics</Link>
         </li>
-        <li>
-          <a href=""></a>
-        </li>
+        <li></li>
       </ul>
     </nav>
   );
