@@ -25,3 +25,7 @@ export function getArticleComments(article_id) {
 export function patchArticleById(article_id, article) {
   return ncNewsUrl.patch(`/articles/${article_id}`, article);
 }
+
+export function postArticleComment(article_id, comment) {
+  return ncNewsUrl.post(`/articles/${article_id}/comments`, comment);
+}
