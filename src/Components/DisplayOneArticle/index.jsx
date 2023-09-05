@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getArticleById } from "../../utils/api";
+import { getArticleById, patchArticleById } from "../../utils/api";
 import "./DisplayOneArticle.css";
 import { useParams } from "react-router-dom";
 import { DisplayArticleComments } from "./DisplayArticleComments";
@@ -11,12 +11,13 @@ export function DisplayOneArticle() {
     topic: "",
     body: "",
     created_at: "",
-    votes: "",
+    votes: 0,
     article_img_url: "",
-    comment_count: "",
+    comment_count: 0,
   });
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [counter, setVotes] = useState({ votes: 0 });
   const { article_id } = useParams();
 
   useEffect(() => {
@@ -32,6 +33,58 @@ export function DisplayOneArticle() {
         setIsError(true);
       });
   }, [article_id]);
+
+  const handleIncrementVote = () => {
+    document.getElementById(
+      "display--article--votes--error--vote"
+    ).style.display = "none";
+
+    setVotes((currentVotes) => {
+      counter.votes = currentArticle.votes + 1;
+      return { ...currentVotes };
+    });
+
+    setCurrentArticle((currentArticle) => ({
+      ...currentArticle,
+      votes: counter.votes,
+    }));
+
+    patchArticleById(article_id, { inc_votes: 1 })
+      .then(() => {
+        return;
+      })
+      .catch(() => {
+        document.getElementById(
+          "display--article--votes--error--vote"
+        ).style.display = "inline";
+      });
+  };
+
+  const handleDecrementVote = () => {
+    document.getElementById(
+      "display--article--votes--error--vote"
+    ).style.display = "none";
+
+    setVotes((currentVotes) => {
+      counter.votes = currentArticle.votes - 1;
+      return { ...currentVotes };
+    });
+
+    setCurrentArticle((currentArticle) => ({
+      ...currentArticle,
+      votes: counter.votes,
+    }));
+
+    patchArticleById(article_id, { inc_votes: -1 })
+      .then(() => {
+        return;
+      })
+      .catch(() => {
+        document.getElementById(
+          "display--article--votes--error--vote"
+        ).style.display = "inline";
+      });
+  };
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -58,7 +111,17 @@ export function DisplayOneArticle() {
               .join("/")
           : ""}
       </p>
-      <p>Votes: {currentArticle.votes}</p>
+      <div className="display--article--votes">
+        <p>Votes: {currentArticle.votes}</p>
+        <p
+          id="display--article--votes--error--vote"
+          style={{ display: "none", color: "red" }}
+        >
+          Something went wrong with your vote, try again
+        </p>
+        <button onClick={handleIncrementVote}>👍</button>{" "}
+        <button onClick={handleDecrementVote}>👎</button>
+      </div>
       <p>Total comments: {currentArticle.comment_count}</p>
 
       <div className="display--article--comments">
