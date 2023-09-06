@@ -3,6 +3,7 @@ import { getArticleById, patchArticleById } from "../../utils/api";
 import "./DisplayOneArticle.css";
 import { useParams } from "react-router-dom";
 import { DisplayArticleComments } from "./DisplayArticleComments";
+import moment from "moment";
 
 export function DisplayOneArticle() {
   const [currentArticle, setCurrentArticle] = useState({
@@ -18,6 +19,7 @@ export function DisplayOneArticle() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [counter, setVotes] = useState({ votes: 0 });
+  const [isVoteError, setIsVoteError] = useState(false);
   const { article_id } = useParams();
 
   useEffect(() => {
@@ -35,9 +37,7 @@ export function DisplayOneArticle() {
   }, [article_id]);
 
   function handleIncrementVote() {
-    document.getElementById(
-      "display--article--votes--error--vote"
-    ).style.display = "none";
+    setIsVoteError(false);
 
     setVotes((currentVotes) => {
       counter.votes = currentArticle.votes + 1;
@@ -54,16 +54,12 @@ export function DisplayOneArticle() {
         return;
       })
       .catch(() => {
-        document.getElementById(
-          "display--article--votes--error--vote"
-        ).style.display = "inline";
+        setIsVoteError(true);
       });
   }
 
   function handleDecrementVote() {
-    document.getElementById(
-      "display--article--votes--error--vote"
-    ).style.display = "none";
+    setIsVoteError(false);
 
     setVotes((currentVotes) => {
       counter.votes = currentArticle.votes - 1;
@@ -80,9 +76,7 @@ export function DisplayOneArticle() {
         return;
       })
       .catch(() => {
-        document.getElementById(
-          "display--article--votes--error--vote"
-        ).style.display = "inline";
+        setIsVoteError(true);
       });
   }
 
@@ -101,21 +95,16 @@ export function DisplayOneArticle() {
       <p>Topic: {currentArticle.topic}</p>
       <p>{currentArticle.body}</p>
       <p>
-        Created at{" "}
-        {currentArticle.created_at
-          ? new Date(currentArticle.created_at)
-              .toJSON()
-              .slice(0, 10)
-              .split("-")
-              .reverse()
-              .join("/")
-          : ""}
+        Created at: {moment(currentArticle.created_at).format("MMMM Do YYYY")};
       </p>
       <div className="display--article--votes">
         <p>Votes: {currentArticle.votes}</p>
         <p
-          id="display--article--votes--error--vote"
-          style={{ display: "none", color: "red" }}
+          className={`display--article--votes--p" ${
+            isVoteError
+              ? "display--article--votes--error--active"
+              : "display--article--votes--error--inactive"
+          }`}
         >
           Something went wrong with your vote, try again
         </p>

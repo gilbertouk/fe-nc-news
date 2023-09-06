@@ -1,3 +1,16 @@
 .display--article img {
   max-width: 100%;
 }
+
+.display--article--votes--p {
+  display: none;
+}
+
+.display--article--votes--error--active {
+  display: inline;
+  color: rgb(243, 24, 24);
+}
+
+.display--article--votes--error--inactive {
+  display: none;
+}

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import "./DisplayArticleComments.css";
 import { getArticleComments, postArticleComment } from "../../../utils/api";
 import { CommentForm } from "../CommentForm";
+import moment from "moment";
 
 export function DisplayArticleComments({
   article_id,
@@ -31,18 +32,15 @@ export function DisplayArticleComments({
   }, [article_id]);
 
   function addNewComment(newComment) {
-    setArticleComments([newComment, ...articleComments]);
-    setCurrentArticle((currentArticle) => {
-      return {
-        ...currentArticle,
-        comment_count: +currentArticle.comment_count + 1,
-      };
-    });
-    postArticleComment(article_id, {
-      username: newComment.author,
-      body: newComment.body,
-    })
-      .then(() => {
+    postArticleComment(article_id, newComment)
+      .then(({ comment }) => {
+        setArticleComments([{ ...comment }, ...articleComments]);
+        setCurrentArticle((currentArticle) => {
+          return {
+            ...currentArticle,
+            comment_count: +currentArticle.comment_count + 1,
+          };
+        });
         setIsSuccessMsgVisible(true);
         setIsErrorAddCommentMsgVisible(false);
         return;
@@ -75,15 +73,7 @@ export function DisplayArticleComments({
             <li key={comment.comment_id}>
               <p>Author: {comment.author}</p>
               <p>
-                Created at:{" "}
-                {comment.created_at
-                  ? new Date(comment.created_at)
-                      .toJSON()
-                      .slice(0, 10)
-                      .split("-")
-                      .reverse()
-                      .join("/")
-                  : ""}
+                Created at: {moment(comment.created_at).format("MMMM Do YYYY")}
               </p>
               <p>{comment.body}</p>
               {comment.votes >= 0 && <p>👍{comment.votes}</p>}
