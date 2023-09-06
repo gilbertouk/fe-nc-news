@@ -34,7 +34,7 @@ export function DisplayOneArticle() {
       });
   }, [article_id]);
 
-  const handleIncrementVote = () => {
+  function handleIncrementVote() {
     document.getElementById(
       "display--article--votes--error--vote"
     ).style.display = "none";
@@ -58,9 +58,9 @@ export function DisplayOneArticle() {
           "display--article--votes--error--vote"
         ).style.display = "inline";
       });
-  };
+  }
 
-  const handleDecrementVote = () => {
+  function handleDecrementVote() {
     document.getElementById(
       "display--article--votes--error--vote"
     ).style.display = "none";
@@ -84,7 +84,7 @@ export function DisplayOneArticle() {
           "display--article--votes--error--vote"
         ).style.display = "inline";
       });
-  };
+  }
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -122,12 +122,13 @@ export function DisplayOneArticle() {
         <button onClick={handleIncrementVote}>👍</button>{" "}
         <button onClick={handleDecrementVote}>👎</button>
       </div>
-      <p>Total comments: {currentArticle.comment_count}</p>
 
       <div className="display--article--comments">
-        <ul className="display--article--comments--list">
-          <DisplayArticleComments article_id={article_id} />
-        </ul>
+        <DisplayArticleComments
+          article_id={article_id}
+          total_comments={currentArticle.comment_count}
+          setCurrentArticle={setCurrentArticle}
+        />
       </div>
     </div>
   );
