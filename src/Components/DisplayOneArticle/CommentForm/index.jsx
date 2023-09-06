@@ -10,11 +10,8 @@ export function CommentForm({
   const [newComment, setNewComment] = useState("");
 
   const defaultComment = {
-    author: "grumpy19",
+    username: "grumpy19",
     body: "",
-    comment_id: Date.now(),
-    created_at: new Date(Date.now()),
-    votes: 0,
   };
 
   const handleFormSubmit = (event) => {

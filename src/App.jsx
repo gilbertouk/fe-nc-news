@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { DisplayOfArticles } from "./Components/DisplayOfArticles";
 import { Header } from "./Components/Header";
 import { NavBar } from "./Components/NavBar";
-import { DisplayOfTopics } from "./Components/DisplayOfTopics";
+import { DisplayArticlesByTopics } from "./Components/DisplayArticlesByTopics";
 import { DisplayOneArticle } from "./Components/DisplayOneArticle";
 
 function App() {
@@ -13,8 +13,9 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<DisplayOfArticles />} />
-        <Route path="/topics" element={<DisplayOfTopics />} />
+        <Route path="/topics" element={<DisplayArticlesByTopics />} />
         <Route path="/articles/:article_id" element={<DisplayOneArticle />} />
+        <Route path="/articles?" element={<DisplayArticlesByTopics />} />
       </Routes>
     </div>
   );
