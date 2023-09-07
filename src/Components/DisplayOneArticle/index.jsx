@@ -4,6 +4,7 @@ import "./DisplayOneArticle.css";
 import { useParams } from "react-router-dom";
 import { DisplayArticleComments } from "./DisplayArticleComments";
 import moment from "moment";
+import { NotFound } from "../CustomErrors";
 
 export function DisplayOneArticle() {
   const [currentArticle, setCurrentArticle] = useState({
@@ -30,7 +31,8 @@ export function DisplayOneArticle() {
         setIsError(false);
         setCurrentArticle(article);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err);
         setIsLoading(false);
         setIsError(true);
       });
@@ -82,7 +84,9 @@ export function DisplayOneArticle() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (isError) return <p>Whops, some error here... please reload the page!</p>;
+  if (isError) {
+    return <NotFound message={"Resource not found"} />;
+  }
 
   return (
     <div className="display--article">

@@ -7,6 +7,7 @@ import { NavBar } from "./Components/NavBar";
 import { DisplayArticlesByTopics } from "./Components/DisplayArticlesByTopics";
 import { DisplayOneArticle } from "./Components/DisplayOneArticle";
 import { useEffect } from "react";
+import { NotFound } from "./Components/CustomErrors";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/articles/:article_id" element={<DisplayOneArticle />} />
         <Route path="/topics/articles?" element={<DisplayArticlesByTopics />} />
         <Route path="/articles" element={<DisplayOfArticles />} />
+        <Route path="*" element={<NotFound message={"Page Not Found"} />} />
       </Routes>
     </div>
   );
