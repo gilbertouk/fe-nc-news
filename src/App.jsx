@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./App.css";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { DisplayOfArticles } from "./Components/DisplayOfArticles";
