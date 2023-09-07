@@ -4,24 +4,25 @@ import { useState, useEffect } from "react";
 import { getAllArticles } from "../../../utils/api";
 import { ArticleCard } from "./ArticleCard";
 
-export function ArticleList({ sortByQuery, orderQuery, query }) {
+export function ArticleList({ query }) {
   const [newArticles, setNewArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
+    setIsError(false);
     getAllArticles(query)
       .then((data) => {
+        console.log(data);
         setIsLoading(false);
-        setIsError(false);
         setNewArticles(data.articles);
       })
       .catch(() => {
         setIsLoading(false);
         setIsError(true);
       });
-  }, [sortByQuery, orderQuery, query]);
+  }, [query]);
 
   if (isLoading) return <p>Loading...</p>;
 

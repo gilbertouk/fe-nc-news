@@ -18,7 +18,7 @@ export function DisplayOneArticle() {
     comment_count: 0,
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState(null);
   const [counter, setVotes] = useState({ votes: 0 });
   const [isVoteError, setIsVoteError] = useState(false);
   const { article_id } = useParams();
@@ -28,13 +28,12 @@ export function DisplayOneArticle() {
     getArticleById(article_id)
       .then(({ article }) => {
         setIsLoading(false);
-        setIsError(false);
         setCurrentArticle(article);
       })
       .catch((err) => {
         console.log(err);
         setIsLoading(false);
-        setIsError(true);
+        setError({ err });
       });
   }, [article_id]);
 
@@ -84,8 +83,13 @@ export function DisplayOneArticle() {
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (isError) {
-    return <NotFound message={"Resource not found"} />;
+  if (error) {
+    return (
+      <NotFound
+        message={error.err.response.data.msg}
+        status={error.err.response.status}
+      />
+    );
   }
 
   return (

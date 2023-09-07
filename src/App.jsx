@@ -18,9 +18,11 @@ function App() {
         <Route path="/" element={<Index />} />
         <Route path="/topics" element={<DisplayArticlesByTopics />} />
         <Route path="/articles/:article_id" element={<DisplayOneArticle />} />
-        <Route path="/topics/articles?" element={<DisplayArticlesByTopics />} />
         <Route path="/articles" element={<DisplayOfArticles />} />
-        <Route path="*" element={<NotFound message={"Page Not Found"} />} />
+        <Route
+          path="*"
+          element={<NotFound message={"Page Not Found"} status={404} />}
+        />
       </Routes>
     </div>
   );

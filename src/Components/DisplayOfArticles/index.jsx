@@ -6,8 +6,6 @@ import { useSearchParams } from "react-router-dom";
 
 export function DisplayOfArticles() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const sortByQuery = searchParams.get("sort_by");
-  const orderQuery = searchParams.get("order");
 
   return (
     <div className="display-container">
@@ -15,11 +13,7 @@ export function DisplayOfArticles() {
         searchParams={searchParams}
         setSearchParams={setSearchParams}
       />
-      <ArticleList
-        sortByQuery={sortByQuery}
-        orderQuery={orderQuery}
-        query={searchParams.toString()}
-      />
+      <ArticleList query={searchParams.toString()} />
       <PaginationButton />
     </div>
   );
