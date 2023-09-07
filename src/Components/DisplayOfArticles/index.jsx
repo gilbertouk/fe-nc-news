@@ -1,7 +1,6 @@
 import "./DisplayOfArticles.css";
 import { ArticlesFilters } from "./ArticlesFilters";
 import { ArticleList } from "./ArticleList";
-import { PaginationButton } from "./PaginationButton";
 import { useSearchParams } from "react-router-dom";
 
 export function DisplayOfArticles() {
@@ -13,8 +12,11 @@ export function DisplayOfArticles() {
         searchParams={searchParams}
         setSearchParams={setSearchParams}
       />
-      <ArticleList query={searchParams.toString()} />
-      <PaginationButton />
+      <ArticleList
+        query={searchParams.toString()}
+        setSearchParams={setSearchParams}
+        searchParams={searchParams}
+      />
     </div>
   );
 }

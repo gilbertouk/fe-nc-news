@@ -80,7 +80,11 @@ export function DisplayArticlesByTopics() {
               setSearchParams={setSearchParams}
             />
             <ul className="card-list">
-              <ArticleList query={searchParams.toString()} />
+              <ArticleList
+                query={searchParams.toString()}
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
+              />
             </ul>
           </div>
         ) : (

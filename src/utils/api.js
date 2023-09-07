@@ -11,18 +11,6 @@ export function getAllArticles(query) {
   });
 }
 
-export function getAllArticlesByTopic(topic) {
-  let defaultUrl = "/articles";
-
-  if (topic) {
-    defaultUrl += `?topic=${topic}`;
-  }
-
-  return ncNewsUrl.get(defaultUrl).then((response) => {
-    return response.data;
-  });
-}
-
 export function getArticleById(article_id) {
   return ncNewsUrl.get(`/articles/${article_id}`).then((response) => {
     return response.data;

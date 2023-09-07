@@ -77,7 +77,6 @@ export function DisplayArticleComments({
       })
       .catch(() => {
         setIsErrorDeleteCommentMsgVisible(true);
-        console.log("test here");
       });
   }
 
