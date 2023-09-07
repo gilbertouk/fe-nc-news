@@ -8,6 +8,8 @@ import {
 } from "../../../utils/api";
 import { CommentForm } from "../CommentForm";
 import moment from "moment";
+import { PaginationButton } from "../../DisplayOfArticles/ArticleList/PaginationButton";
+import { useSearchParams } from "react-router-dom";
 
 export function DisplayArticleComments({
   article_id,
@@ -23,22 +25,27 @@ export function DisplayArticleComments({
   const [deletedComment, setDeletedComment] = useState(false);
   const [isErrorDeleteCommentMsgVisible, setIsErrorDeleteCommentMsgVisible] =
     useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const limit = 10;
 
   useEffect(() => {
     setIsErrorDeleteCommentMsgVisible(false);
     setIsLoading(true);
     setDeletedComment(false);
-    getArticleComments(article_id)
+    getArticleComments(article_id, searchParams.toString())
       .then(({ comments }) => {
         setIsLoading(false);
         setIsError(false);
         setArticleComments(comments);
+        setTotalPages(Math.ceil(total_comments / limit));
       })
       .catch(() => {
         setIsLoading(false);
         setIsError(true);
       });
-  }, [article_id, deletedComment]);
+  }, [article_id, deletedComment, searchParams, total_comments]);
 
   function addNewComment(newComment) {
     postArticleComment(article_id, newComment)
@@ -121,6 +128,13 @@ export function DisplayArticleComments({
           );
         })}
       </ul>
+      <PaginationButton
+        page={page}
+        setPage={setPage}
+        totalPages={totalPages}
+        setSearchParams={setSearchParams}
+        searchParams={searchParams}
+      />
     </div>
   );
 }

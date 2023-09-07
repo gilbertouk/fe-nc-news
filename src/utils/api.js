@@ -17,10 +17,12 @@ export function getArticleById(article_id) {
   });
 }
 
-export function getArticleComments(article_id) {
-  return ncNewsUrl.get(`/articles/${article_id}/comments`).then((response) => {
-    return response.data;
-  });
+export function getArticleComments(article_id, query) {
+  return ncNewsUrl
+    .get(`/articles/${article_id}/comments?${query}`)
+    .then((response) => {
+      return response.data;
+    });
 }
 
 export function getAllTopics() {
