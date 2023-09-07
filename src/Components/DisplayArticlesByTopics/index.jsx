@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./DisplayArticlesByTopics.css";
-import { getAllArticles, getAllTopics } from "../../utils/api";
+import { getAllArticlesByTopic, getAllTopics } from "../../utils/api";
 import { ArticleCard } from "../DisplayOfArticles/ArticleList/ArticleCard";
 
 export function DisplayArticlesByTopics() {
@@ -18,12 +18,11 @@ export function DisplayArticlesByTopics() {
   const [isError, setIsError] = useState(false);
   const [thereIsNoArticleToDisplay, setThereIsNoArticleToDisplay] =
     useState(false);
-
   const navigate = useNavigate();
 
   function handleSelectedTopic(event) {
     setSelectedTopic(event.target.value);
-    navigate(`/articles?topic=${event.target.value}`);
+    navigate(`/topics/articles?topic=${event.target.value}`);
   }
 
   useEffect(() => {
@@ -37,7 +36,7 @@ export function DisplayArticlesByTopics() {
         if (selectedTopic !== "") {
           setIsError(false);
           setIsLoading(true);
-          getAllArticles(selectedTopic)
+          getAllArticlesByTopic(selectedTopic)
             .then((response) => {
               setIsLoading(false);
               if (response.articles.length > 0) {

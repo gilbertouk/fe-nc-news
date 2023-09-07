@@ -1,16 +1,17 @@
+/* eslint-disable react/prop-types */
 import "./ArticleList.css";
 import { useState, useEffect } from "react";
 import { getAllArticles } from "../../../utils/api";
 import { ArticleCard } from "./ArticleCard";
 
-export function ArticleList() {
+export function ArticleList({ sortByQuery, orderQuery, query }) {
   const [newArticles, setNewArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
-    getAllArticles()
+    getAllArticles(query)
       .then((data) => {
         setIsLoading(false);
         setIsError(false);
@@ -20,7 +21,7 @@ export function ArticleList() {
         setIsLoading(false);
         setIsError(true);
       });
-  }, []);
+  }, [sortByQuery, orderQuery, query]);
 
   if (isLoading) return <p>Loading...</p>;
 
