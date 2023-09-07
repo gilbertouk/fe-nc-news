@@ -52,3 +52,7 @@ export function postArticleComment(article_id, comment) {
       return response.data;
     });
 }
+
+export function deleteArticleComment(comment_id) {
+  return ncNewsUrl.delete(`/comments/${comment_id}`);
+}
