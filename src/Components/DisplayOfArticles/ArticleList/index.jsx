@@ -37,8 +37,6 @@ export function ArticleList({ query, setSearchParams, searchParams }) {
 
   if (isLoading) return <p>Loading...</p>;
 
-  if (isError) return <p>Whops, some error here... please reload the page!</p>;
-
   if (haveArticlesToDisplay)
     return (
       <div>
@@ -56,11 +54,18 @@ export function ArticleList({ query, setSearchParams, searchParams }) {
       </div>
     );
 
-  if (!haveArticlesToDisplay) {
+  if (!haveArticlesToDisplay || isError) {
     return (
-      <>
-        <p>Resource not found with the selected filter</p>
-      </>
+      <div>
+        <p>There are no matching results.</p>
+        <p>Improve your search results by:</p>
+        <ul>
+          <li>removing filters</li>
+          <li>double-checking your spelling</li>
+          <li>using fewer keywords</li>
+          <li>searching for something less specific</li>
+        </ul>
+      </div>
     );
   }
 }

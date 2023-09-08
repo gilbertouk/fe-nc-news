@@ -7,7 +7,7 @@
   list-style: none;
   padding: 0;
   overflow: auto;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
 }
 
 .card-list li {
