@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./DisplayArticleComments.css";
 import {
   deleteArticleComment,
@@ -10,6 +10,7 @@ import { CommentForm } from "../CommentForm";
 import moment from "moment";
 import { PaginationButton } from "../../DisplayOfArticles/ArticleList/PaginationButton";
 import { useSearchParams } from "react-router-dom";
+import { User } from "../../../Context/User";
 
 export function DisplayArticleComments({
   article_id,
@@ -30,6 +31,7 @@ export function DisplayArticleComments({
   const [searchParams, setSearchParams] = useSearchParams();
   const [isDeletedSuccessMsgVisible, setIsDeletedSuccessMsgVisible] =
     useState(false);
+  const { username } = useContext(User);
   const limit = 10;
 
   useEffect(() => {
@@ -74,8 +76,10 @@ export function DisplayArticleComments({
   }
 
   function handleSelectedComment(comment) {
+    setIsLoading(true);
     deleteArticleComment(comment.comment_id)
       .then(() => {
+        setIsLoading(false);
         setIsDeletedSuccessMsgVisible(true);
         setDeletedComment(true);
         setCurrentArticle((currentArticle) => {
@@ -86,12 +90,13 @@ export function DisplayArticleComments({
         });
       })
       .catch(() => {
+        setIsLoading(false);
         setIsErrorDeleteCommentMsgVisible(true);
       });
 
     setTimeout(() => {
       setIsDeletedSuccessMsgVisible(false);
-    }, 3000);
+    }, 4000);
   }
 
   if (isLoading) return <p>Loading...</p>;
@@ -127,14 +132,16 @@ export function DisplayArticleComments({
                   Something went wrong, try again
                 </p>
               )}
-              <button
-                onClick={() => {
-                  handleSelectedComment(comment);
-                }}
-                type="submit"
-              >
-                delete comment
-              </button>
+              {comment.author === username && (
+                <button
+                  onClick={() => {
+                    handleSelectedComment(comment);
+                  }}
+                  type="submit"
+                >
+                  delete comment
+                </button>
+              )}
               <hr />
             </li>
           );
