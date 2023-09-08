@@ -74,11 +74,12 @@ export function DisplayArticlesByTopics() {
           </select>
         </form>
         {searchParams.toString() !== "" ? (
-          <div>
+          <div className="display--container">
             <ArticlesFilters
               searchParams={searchParams}
               setSearchParams={setSearchParams}
             />
+
             <ul className="card-list">
               <ArticleList
                 query={searchParams.toString()}
