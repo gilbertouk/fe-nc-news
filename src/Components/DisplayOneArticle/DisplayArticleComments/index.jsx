@@ -28,6 +28,8 @@ export function DisplayArticleComments({
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isDeletedSuccessMsgVisible, setIsDeletedSuccessMsgVisible] =
+    useState(false);
   const limit = 10;
 
   useEffect(() => {
@@ -74,6 +76,7 @@ export function DisplayArticleComments({
   function handleSelectedComment(comment) {
     deleteArticleComment(comment.comment_id)
       .then(() => {
+        setIsDeletedSuccessMsgVisible(true);
         setDeletedComment(true);
         setCurrentArticle((currentArticle) => {
           return {
@@ -85,6 +88,10 @@ export function DisplayArticleComments({
       .catch(() => {
         setIsErrorDeleteCommentMsgVisible(true);
       });
+
+    setTimeout(() => {
+      setIsDeletedSuccessMsgVisible(false);
+    }, 3000);
   }
 
   if (isLoading) return <p>Loading...</p>;
@@ -99,6 +106,11 @@ export function DisplayArticleComments({
         isErrorAddCommentMsgVisible={isErrorAddCommentMsgVisible}
       />
       <p>Total comments: {total_comments}</p>
+      {isDeletedSuccessMsgVisible && (
+        <p id="success-msg" style={{ color: "green" }}>
+          Comment deleted successfully
+        </p>
+      )}
       <ul className="display--article--comments--list">
         {articleComments.map((comment) => {
           return (
