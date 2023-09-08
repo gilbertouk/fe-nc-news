@@ -11,28 +11,18 @@ export function getAllArticles(query) {
   });
 }
 
-export function getAllArticlesByTopic(topic) {
-  let defaultUrl = "/articles";
-
-  if (topic) {
-    defaultUrl += `?topic=${topic}`;
-  }
-
-  return ncNewsUrl.get(defaultUrl).then((response) => {
-    return response.data;
-  });
-}
-
 export function getArticleById(article_id) {
   return ncNewsUrl.get(`/articles/${article_id}`).then((response) => {
     return response.data;
   });
 }
 
-export function getArticleComments(article_id) {
-  return ncNewsUrl.get(`/articles/${article_id}/comments`).then((response) => {
-    return response.data;
-  });
+export function getArticleComments(article_id, query) {
+  return ncNewsUrl
+    .get(`/articles/${article_id}/comments?${query}`)
+    .then((response) => {
+      return response.data;
+    });
 }
 
 export function getAllTopics() {

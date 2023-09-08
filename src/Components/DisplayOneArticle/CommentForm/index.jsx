@@ -1,16 +1,18 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "./CommentForm.css";
+import { User } from "../../../Context/User";
 
 export function CommentForm({
   addNewComment,
   isErrorAddCommentMsgVisible,
   isSuccessMsgVisible,
 }) {
+  const { username } = useContext(User);
   const [newComment, setNewComment] = useState("");
 
   const defaultComment = {
-    username: "grumpy19",
+    username,
     body: "",
   };
 

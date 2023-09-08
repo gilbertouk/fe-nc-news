@@ -2,29 +2,22 @@
 import "./ArticlesFilters.css";
 
 export function ArticlesFilters({ searchParams, setSearchParams }) {
-  function handleSortBy(event) {
-    const newParams = new URLSearchParams();
-
-    newParams.set("sort_by", event.target.value);
-    setSearchParams(newParams);
-  }
-
-  function handleOrderBy(event) {
+  function onChangeQuery(event) {
     const newParams = new URLSearchParams(searchParams);
-
-    newParams.set("order", event.target.value);
+    const { name, value } = event.target;
+    newParams.set(name, value);
     setSearchParams(newParams);
   }
 
   return (
     <div>
       <form>
-        <label htmlFor="sortBy">Order by:</label>
+        <label htmlFor="sort_by">Order by:</label>
         <select
-          onChange={handleSortBy}
+          onChange={onChangeQuery}
           defaultValue=""
-          id="sortBy"
-          name="sortBy"
+          id="sort_by"
+          name="sort_by"
         >
           <option key="selected" value="" disabled hidden>
             Choose here
@@ -36,7 +29,7 @@ export function ArticlesFilters({ searchParams, setSearchParams }) {
 
         <label htmlFor="order">Order: </label>
         <select
-          onChange={handleOrderBy}
+          onChange={onChangeQuery}
           defaultValue=""
           id="order"
           name="order"

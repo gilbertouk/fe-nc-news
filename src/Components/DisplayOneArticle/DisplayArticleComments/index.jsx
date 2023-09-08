@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "./DisplayArticleComments.css";
 import {
   deleteArticleComment,
@@ -8,6 +8,9 @@ import {
 } from "../../../utils/api";
 import { CommentForm } from "../CommentForm";
 import moment from "moment";
+import { PaginationButton } from "../../DisplayOfArticles/ArticleList/PaginationButton";
+import { useSearchParams } from "react-router-dom";
+import { User } from "../../../Context/User";
 
 export function DisplayArticleComments({
   article_id,
@@ -23,22 +26,30 @@ export function DisplayArticleComments({
   const [deletedComment, setDeletedComment] = useState(false);
   const [isErrorDeleteCommentMsgVisible, setIsErrorDeleteCommentMsgVisible] =
     useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isDeletedSuccessMsgVisible, setIsDeletedSuccessMsgVisible] =
+    useState(false);
+  const { username } = useContext(User);
+  const limit = 10;
 
   useEffect(() => {
     setIsErrorDeleteCommentMsgVisible(false);
     setIsLoading(true);
     setDeletedComment(false);
-    getArticleComments(article_id)
+    getArticleComments(article_id, searchParams.toString())
       .then(({ comments }) => {
         setIsLoading(false);
         setIsError(false);
         setArticleComments(comments);
+        setTotalPages(Math.ceil(total_comments / limit));
       })
       .catch(() => {
         setIsLoading(false);
         setIsError(true);
       });
-  }, [article_id, deletedComment]);
+  }, [article_id, deletedComment, searchParams, total_comments]);
 
   function addNewComment(newComment) {
     postArticleComment(article_id, newComment)
@@ -65,8 +76,11 @@ export function DisplayArticleComments({
   }
 
   function handleSelectedComment(comment) {
+    setIsLoading(true);
     deleteArticleComment(comment.comment_id)
       .then(() => {
+        setIsLoading(false);
+        setIsDeletedSuccessMsgVisible(true);
         setDeletedComment(true);
         setCurrentArticle((currentArticle) => {
           return {
@@ -76,9 +90,13 @@ export function DisplayArticleComments({
         });
       })
       .catch(() => {
+        setIsLoading(false);
         setIsErrorDeleteCommentMsgVisible(true);
-        console.log("test here");
       });
+
+    setTimeout(() => {
+      setIsDeletedSuccessMsgVisible(false);
+    }, 4000);
   }
 
   if (isLoading) return <p>Loading...</p>;
@@ -93,6 +111,11 @@ export function DisplayArticleComments({
         isErrorAddCommentMsgVisible={isErrorAddCommentMsgVisible}
       />
       <p>Total comments: {total_comments}</p>
+      {isDeletedSuccessMsgVisible && (
+        <p id="success-msg" style={{ color: "green" }}>
+          Comment deleted successfully
+        </p>
+      )}
       <ul className="display--article--comments--list">
         {articleComments.map((comment) => {
           return (
@@ -109,19 +132,28 @@ export function DisplayArticleComments({
                   Something went wrong, try again
                 </p>
               )}
-              <button
-                onClick={() => {
-                  handleSelectedComment(comment);
-                }}
-                type="submit"
-              >
-                delete comment
-              </button>
+              {comment.author === username && (
+                <button
+                  onClick={() => {
+                    handleSelectedComment(comment);
+                  }}
+                  type="submit"
+                >
+                  delete comment
+                </button>
+              )}
               <hr />
             </li>
           );
         })}
       </ul>
+      <PaginationButton
+        page={page}
+        setPage={setPage}
+        totalPages={totalPages}
+        setSearchParams={setSearchParams}
+        searchParams={searchParams}
+      />
     </div>
   );
 }
