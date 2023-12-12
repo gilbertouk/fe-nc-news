@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 const ncNewsUrl = axios.create({
-  baseURL: "https://nc-news-api-ago9.onrender.com/api",
+  baseURL: 'https://api-nc-news.gilbertosilva.dev/api',
   // baseURL: "http://localhost:9090/api",
 });
 
@@ -26,7 +26,7 @@ export function getArticleComments(article_id, query) {
 }
 
 export function getAllTopics() {
-  return ncNewsUrl.get("/topics").then((response) => {
+  return ncNewsUrl.get('/topics').then((response) => {
     return response.data;
   });
 }
